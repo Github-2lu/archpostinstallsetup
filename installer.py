@@ -14,9 +14,9 @@ def setUpSystem(setUpConfigNums, jsonData):
         for setUpConfigNum in setUpConfigNums:
             setUpConfigSteps = jsonData[setUpConfigNum]["steps"]
 
-        for setUpConfig in setUpConfigSteps:
-            if not runCmd(setUpConfig):
-                return False
+            for setUpConfig in setUpConfigSteps:
+                if not runCmd(setUpConfig):
+                    return False
         
     except:
         return False
