@@ -1,0 +1,131 @@
+{
+    "1": {
+        "name": "Essential plasma-tools",
+        "steps": [
+            "sudo pacman -S ark dolphin kio-admin kwallet-pam okular kate konsole spectacle gwenview spectacles system-config-printer tuned-ppd --needed --noconfirm"
+        ]
+    },
+    "2": {
+        "name": "Essential general softwares",
+        "steps": [
+            "sudo pacman -S wget curl unzip unrar p7zip vim git jq net-tools zsh fuse --needed --noconfirm"
+        ]
+    },
+    "3": {
+        "name": "CoPilot key to RCTRL",
+        "steps": [
+            "sudo pacman -S wget keyd --needed --noconfirm",
+            "rm -f /tmp/keydSetup.zip",
+            "wget -O /tmp/keydSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/keydSetup.zip",
+            "unzip /tmp/keydSetup.zip -d /tmp",
+            "sudo cp -r -v /tmp/keydSetup/etc/* /etc",
+            "sudo systemctl enable keyd --now"
+        ]
+    },
+    "4": {
+        "name": "smplayer",
+        "steps": [
+            "sudo pacman -S wget smplayer mpv --needed --noconfirm",
+            "rm -f /tmp/smPlayerSetup.zip",
+            "wget -O /tmp/smPlayerSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/smPlayerSetup.zip",
+            "unzip /tmp/smPlayerSetup.zip -d /tmp",
+            "cp -r /tmp/smPlayerSetup/home/* $HOME"
+        ]
+    },
+    "5": {
+        "name": "konsole Setup",
+        "steps": [
+            "sudo pacman -S wget zsh --needed --noconfirm",
+            "rm -f /tmp/konsoleSetup.zip",
+            "wget -O /tmp/konsoleSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/konsoleSetup.zip",
+            "unzip /tmp/konsoleSetup.zip -d /tmp",
+            "cp -r /tmp/konsoleSetup/home/* $HOME"
+        ]
+    },
+    "6": {
+        "name": "Plasma Mac Like setup",
+        "steps": [
+            "rm -f /tmp/plasmaMacAppSetup.zip",
+            "wget -O /tmp/plasmaMacAppSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/plasmaMacAppSetup.zip",
+            "unzip /tmp/plasmaMacAppSetup.zip -d /tmp",
+            "sudo cp -r /tmp/plasmaMacAppSetup/etc/* /etc",
+            "sudo cp -r /tmp/plasmaMacAppSetup/usr/* /usr",
+            "cp -r /tmp/plasmaMacAppSetup/home/* $HOME"
+        ]
+    },
+    "7": {
+        "name": "Libreoffice",
+        "steps": [
+            "sudo pacman -S libreoffice-fresh --needed --noconfirm"
+        ]
+    },
+    "8": {
+        "name": "Nvidia",
+        "steps": [
+            "sudo pacman -S nvidia nvidia-utils nvidia-settings --needed --noconfirm",
+            "sudo systemctl enable nvidia-powerd.service --now"
+        ]
+    },
+    "9": {
+        "name": "Qemu",
+        "steps": [
+            "sudo pacman -S qemu-full virt-manager virt-viewer dnsmasq bridge-utils libguestfs ebtables vde2 openbsd-netcat --needed --noconfirm",
+            "sudo sed -i '/unix_sock_group/s/^#//g' /etc/libvirt/libvirtd.conf",
+            "sudo sed -i '/unix_sock_rw_perms/s/^#//g' /etc/libvirt/libvirtd.conf",
+            "sudo usermod -aG libvirt $USER",
+            "sudo systemctl enable libvirtd --now",
+            "sudo virsh net-autostart default",
+            "sudo virsh net-start default"
+        ]
+    },
+    "10": {
+        "name": "Yay",
+        "steps": [
+            "rm -rf /tmp/yay",
+            "git clone https://aur.archlinux.org/yay.git /tmp/yay",
+            "sudo pacman -S go --needed --noconfirm",
+            "cd /tmp/yay && makepkg",
+            "sudo pacman -R go --noconfirm",
+            "sudo pacman -U $(ls /tmp/yay/yay-*.pkg.tar.zst | grep -v 'debug') --needed --noconfirm"
+        ]
+    },
+    "11": {
+        "name": "Thorium Browser",
+        "steps": [
+            "yay -S thorium-browser-bin --needed --noconfirm --removemake --cleanafter"
+        ]
+    },
+    "12": {
+        "name": "Visual-code",
+        "steps": [
+            "yay -S visual-studio-code-bin --needed --noconfirm --removemake --cleanafter"
+        ]
+    },
+    "13": {
+        "name": "Bottles",
+        "steps": [
+            "sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader gvfs lib32-gamemode lib32-gnutls lib32-vkd3d vkd3d wine wine-mono wine-gecko lib32-freetype2 goverlay --needed --noconfirm",
+            "yay -S bottles --noconfirm --removemake --cleanafter"
+        ]
+    },
+    "14": {
+        "name": "FDM",
+        "steps": [
+            "yay -S freedownloadmanager thorium-browser-bin --needed --noconfirm --removemake --cleanafter",
+            "rm -f /tmp/fdmThoriumSetup.zip",
+            "wget -O /tmp/fdmThoriumSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/fdmThoriumSetup.zip",
+            "unzip /tmp/fdmThoriumSetup.zip -d /tmp",
+            "cp -r /tmp/fdmThoriumSetup/home/* $HOME"
+        ]
+    },
+    "15": {
+        "name": "FreeTube",
+        "steps": [
+            "yay -S freetube-bin --needed --noconfirm --removemake --cleanafter"
+        ]
+    },
+    "16": {
+        "name": "Qt creator",
+        "steps":[]
+    }
+}
