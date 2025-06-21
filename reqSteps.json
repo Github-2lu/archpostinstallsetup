@@ -2,7 +2,9 @@
     "1": {
         "name": "Essential plasma-tools",
         "steps": [
-            "sudo pacman -S ark dolphin kio-admin kwallet-pam okular kate konsole spectacle gwenview spectacles system-config-printer tuned-ppd --needed --noconfirm"
+            "sudo pacman -S ark dolphin kio-admin kwallet-pam okular kate konsole spectacle gwenview system-config-printer --needed --noconfirm",
+            "sudo pacman -S tuned-ppd --needed --noconfirm",
+            "sudo systemctl enable tuned-ppd --now"
         ]
     },
     "2": {
@@ -15,10 +17,11 @@
         "name": "CoPilot key to RCTRL",
         "steps": [
             "sudo pacman -S wget keyd --needed --noconfirm",
-            "rm -f /tmp/keydSetup.zip",
+            "rm -rf /tmp/keydSetup.zip /tmp/keydSetup",
             "wget -O /tmp/keydSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/keydSetup.zip",
             "unzip /tmp/keydSetup.zip -d /tmp",
             "sudo cp -r -v /tmp/keydSetup/etc/* /etc",
+            "rm -rf /tmp/keydSetup.zip /tmp/keydSetup",
             "sudo systemctl enable keyd --now"
         ]
     },
@@ -26,31 +29,38 @@
         "name": "smplayer",
         "steps": [
             "sudo pacman -S wget smplayer mpv --needed --noconfirm",
-            "rm -f /tmp/smPlayerSetup.zip",
+            "rm -rf /tmp/smPlayerSetup.zip /tmp/smPlayerSetup",
             "wget -O /tmp/smPlayerSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/smPlayerSetup.zip",
             "unzip /tmp/smPlayerSetup.zip -d /tmp",
-            "cp -r /tmp/smPlayerSetup/home/* $HOME"
+            "cp -r /tmp/smPlayerSetup/home/.config/* $HOME/.config",
+            "rm -rf /tmp/smPlayerSetup.zip /tmp/smPlayerSetup"
         ]
     },
     "5": {
         "name": "konsole Setup",
         "steps": [
             "sudo pacman -S wget zsh --needed --noconfirm",
-            "rm -f /tmp/konsoleSetup.zip",
+            "rm -rf /tmp/konsoleSetup.zip /tmp/konsoleSetup",
             "wget -O /tmp/konsoleSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/konsoleSetup.zip",
             "unzip /tmp/konsoleSetup.zip -d /tmp",
-            "cp -r /tmp/konsoleSetup/home/* $HOME"
+            "cp -r /tmp/konsoleSetup/home/.config/* $HOME/.config",
+            "cp -r /tmp/konsoleSetup/home/.local/* $HOME/.local",
+            "cd /tmp/konsoleSetup/home && cp -r .oh-my-zsh .p10k.zsh .powerlevel10k .zshrc .zshrc.pre-oh-my-zsh $HOME",
+            "rm -rf /tmp/konsoleSetup.zip /tmp/konsoleSetup"
         ]
     },
     "6": {
         "name": "Plasma Mac Like setup",
         "steps": [
-            "rm -f /tmp/plasmaMacAppSetup.zip",
+            "rm -rf /tmp/plasmaMacAppSetup.zip /tmp/plasmaMacAppSetup",
+            "sudo pacman -S wget --needed --noconfirm",
             "wget -O /tmp/plasmaMacAppSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/plasmaMacAppSetup.zip",
             "unzip /tmp/plasmaMacAppSetup.zip -d /tmp",
             "sudo cp -r /tmp/plasmaMacAppSetup/etc/* /etc",
             "sudo cp -r /tmp/plasmaMacAppSetup/usr/* /usr",
-            "cp -r /tmp/plasmaMacAppSetup/home/* $HOME"
+            "cp -r /tmp/plasmaMacAppSetup/home/.config/* $HOME/.config",
+            "cp -r /tmp/plasmaMacAppSetup/home/.local/* $HOME/.local",
+            "rm -rf /tmp/plasmaMacAppSetup.zip /tmp/plasmaMacAppSetup"
         ]
     },
     "7": {
@@ -86,13 +96,18 @@
             "sudo pacman -S go --needed --noconfirm",
             "cd /tmp/yay && makepkg",
             "sudo pacman -R go --noconfirm",
-            "sudo pacman -U $(ls /tmp/yay/yay-*.pkg.tar.zst | grep -v 'debug') --needed --noconfirm"
+            "sudo pacman -U $(ls /tmp/yay/yay-*.pkg.tar.zst | grep -v 'debug') --needed --noconfirm",
+            "rm -rf /tmp/yay"
         ]
     },
     "11": {
         "name": "Thorium Browser",
         "steps": [
-            "yay -S thorium-browser-bin --needed --noconfirm --removemake --cleanafter"
+            "rm -rf /tmp/thorium",
+            "git clone https://aur.archlinux.org/thorium-browser-bin.git /tmp/thorium",
+            "cd /tmp/thorium && makepkg -p PKGBUILD.avx2",
+            "sudo pacman -U /tmp/thorium/thorium-browser-avx2-bin*.pkg.tar.zst --needed --noconfirm",
+            "rm -rf /tmp/thorium"
         ]
     },
     "12": {
@@ -104,7 +119,7 @@
     "13": {
         "name": "Bottles",
         "steps": [
-            "sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader gvfs lib32-gamemode lib32-gnutls lib32-vkd3d vkd3d wine wine-mono wine-gecko lib32-freetype2 goverlay --needed --noconfirm",
+            "sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader gvfs lib32-gamemode lib32-gnutls lib32-vkd3d vkd3d wine wine-mono wine-gecko freetype2 lib32-freetype2 goverlay --needed --noconfirm",
             "yay -S bottles --noconfirm --removemake --cleanafter"
         ]
     },
@@ -112,10 +127,12 @@
         "name": "FDM",
         "steps": [
             "yay -S freedownloadmanager thorium-browser-bin --needed --noconfirm --removemake --cleanafter",
-            "rm -f /tmp/fdmThoriumSetup.zip",
+            "rm -rf /tmp/fdmThoriumSetup.zip /tmp/fdmThoriumSetup",
+            "sudo pacman -S wget --needed --noconfirm",
             "wget -O /tmp/fdmThoriumSetup.zip https://github.com/Github-2lu/archpostinstallsetup/releases/download/1.0.0-pre/fdmThoriumSetup.zip",
             "unzip /tmp/fdmThoriumSetup.zip -d /tmp",
-            "cp -r /tmp/fdmThoriumSetup/home/* $HOME"
+            "cp -r /tmp/fdmThoriumSetup/home/.config/* $HOME/.config",
+            "rm -rf /tmp/fdmThoriumSetup.zip /tmp/fdmThoriumSetup"
         ]
     },
     "15": {
@@ -126,6 +143,11 @@
     },
     "16": {
         "name": "Qt creator",
-        "steps":[]
+        "steps":[
+            "echo \"go to this site and download linux 64 bit package: https://www.qt.io/download-qt-installer-oss\"",
+            "echo \" run this command to make it executable: chmod +x {pkg}.run\"",
+            "echo \"for mirrorlist go to this site: https://download.qt.io/static/mirrorlist/\"",
+            "echo \"now run the .run file with --mirror option and select fastest mirror. Generally Australia mirror is faster\""
+        ]
     }
 }

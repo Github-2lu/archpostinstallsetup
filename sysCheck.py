@@ -16,8 +16,8 @@ def checkOsNameAndArch():
     osName = file.readlines(1)[0]
     file.close()
     if "Arch Linux" not in osName:
-        print("ERROR: OS is not Arch Linux")
-        return False
+        print("WARNING: OS is not Arch Linux. All Steps may not work")
+        return True
     if "x86_64" not in platform.machine():
         print("ERROR: architechture is not x86_64")
         return False

@@ -39,7 +39,8 @@ def confirmInstall(jsonData, installerNumsArr):
         return True
     return False
 
-if __name__ == '__main__':    
+
+def main():
     print("######## This is a post install setup file for arch linux ##################")
 
     if(sysCheck.totalCheck()):
@@ -53,5 +54,11 @@ if __name__ == '__main__':
 
         installerNumsArr = checkInputNums(installerNums, jsonData)
 
+        if(len(installerNumsArr) == 0):
+            return
+
         if(confirmInstall(jsonData, installerNumsArr)):
             installer.setUpSystem(installerNumsArr, jsonData)
+
+if __name__ == '__main__':    
+    main()
